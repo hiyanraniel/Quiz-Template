@@ -1,27 +1,21 @@
-const { spawn } = require("child_process");
+
+
+
+const express = require('express');
 const path = require('path');
 
-const SCRIPT_FILE = "main.js";
-const SCRIPT_PATH = path.join(__dirname, SCRIPT_FILE);
+const app = express();
+ 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+const PORT = process.env.PORT || 20797;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 
-function start() {
-    const main = spawn("node", [SCRIPT_PATH], {
-        cwd: __dirname,
-        stdio: "inherit",
-        shell: true
-    });
 
-    main.on("close", (exitCode) => {
-        if (exitCode === 0) {
-            console.log("Main process exited with code 0");
-        } else if (exitCode === 1) {
-            console.log("Main process exited with code 1. Restarting...");
-            start();
-        }  else {
-            console.error(`Main process exited with code ${exitCode}`);
-        }
-    });
-}
 
-start();
+// Pa repaste
